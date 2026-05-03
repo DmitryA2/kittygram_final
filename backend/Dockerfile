@@ -7,4 +7,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Сбор статики (в STATIC_ROOT = '/app/static/')
+RUN python manage.py collectstatic --noinput
+
+# Запуск gunicorn
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "kittygram_backend.wsgi"]
