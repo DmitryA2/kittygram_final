@@ -1,3 +1,4 @@
-taski_domain: "localhost"
-kittygram_domain: "localhost"
-server_ip: "127.0.0.1"
+repo_owner: DmirtryA2
+kittygram_domain: http://192.168.10.122:9000/
+taski_domain: http://192.168.10.122:8000/
+dockerhub_username: dmitryaa
