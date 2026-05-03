@@ -14,6 +14,22 @@ jobs:
   tests:
     name: Test backend and frontend
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:13
+        env:
+          POSTGRES_DB: kittygram
+          POSTGRES_USER: kittygram_user
+          POSTGRES_PASSWORD: kittygram_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -34,7 +50,12 @@ jobs:
           cd backend
           ruff check .
 
-      - name: Run backend tests (pytest)
+      - name: Run backend tests
+        env:
+          DB_HOST: localhost
+          POSTGRES_PASSWORD: kittygram_password
+          POSTGRES_USER: kittygram_user
+          POSTGRES_DB: kittygram
         run: |
           cd backend
           pytest
